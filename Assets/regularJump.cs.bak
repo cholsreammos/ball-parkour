@@ -1,0 +1,44 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class regularJump : MonoBehaviour{
+	public bool canJump;
+	public GameObject GO;
+	public bool spaceBarDown;
+	public float jumpSpeed = 7.5F;
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+
+    void Update()
+    {
+		jumpSpeed = GO.GetComponent<movementScript>.JumpSpeed();
+		if (Input.GetKeyDown(KeyCode.Space)){
+			spaceBarDown = true;
+		}
+	}
+	
+    void FixedUpdate()
+    {
+		if ((spaceBarDown == true) && canJump == true){
+			GO.GetComponent<Rigidbody>().AddForce(Vector3.up * jumpSpeed, ForceMode.Impulse);
+			spaceBarDown = false;
+		}
+		if ((spaceBarDown == true) && canJump == false){
+			spaceBarDown = false;
+		}
+    }
+
+	void OnCollisionStay(Collision other){
+		canJump = true;
+	}
+	
+	void OnCollisionExit(Collision other){
+		canJump = false;
+	}
+}
